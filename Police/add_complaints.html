@@ -1,0 +1,175 @@
+
+{% extends "User/header.html" %}
+{% block content %}
+{% load static %}
+<section class="contact_section layout_padding">
+    <div class="container-fluid">
+      <div class="container">
+      
+      <div class="row">
+      
+       
+        <div class="col-md-12">
+           
+          <form>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label for="crimeType" class="form-label">Crime Type</label>
+                    <select id="crimeType" class="form-control" required>
+                        <option value="">Choose...</option>
+                        <option value="Theft">Theft</option>
+                        <option value="Assault">Assault</option>
+                        <option value="Burglary">Burglary</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="severity" class="form-label">Severity</label>
+                    <select id="severity" class="form-control" required>
+                        <option value="">Choose...</option>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="dateTime" class="form-label">Date & Time</label>
+                    <input type="datetime-local" id="dateTime" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="latitude" class="form-label">Latitude</label>
+                    <input type="text" id="latitude" class="form-control" placeholder="e.g., 26.0337" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="longitude" class="form-label">Longitude</label>
+                    <input type="text" id="longitude" class="form-control" placeholder="e.g., 72.2001" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="jurisdiction" class="form-label">Police Station Jurisdiction</label>
+                    <input type="text" id="jurisdiction" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="weather" class="form-label">Weather</label>
+                    <select id="weather" class="form-control" required>
+                        <option value="">Choose...</option>
+                        <option value="Clear">Clear</option>
+                        <option value="Rainy">Rainy</option>
+                        <option value="Cloudy">Cloudy</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="populationDensity" class="form-label">Population Density</label>
+                    <input type="number" id="populationDensity" class="form-control" placeholder="e.g., 9572" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="proximityLandmark" class="form-label">Proximity to Landmark (meters)</label>
+                    <input type="number" id="proximityLandmark" class="form-control" placeholder="e.g., 1608" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="timeOfDay" class="form-label">Time of Day</label>
+                    <select id="timeOfDay" class="form-control" required>
+                        <option value="">Choose...</option>
+                        <option value="Morning">Morning</option>
+                        <option value="Afternoon">Afternoon</option>
+                        <option value="Evening">Evening</option>
+                        <option value="Night">Night</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="dayOfWeek" class="form-label">Day of the Week</label>
+                    <select id="dayOfWeek" class="form-control" required>
+                        <option value="">Choose...</option>
+                        <option value="Monday">Monday</option>
+                        <option value="Tuesday">Tuesday</option>
+                        <option value="Wednesday">Wednesday</option>
+                        <option value="Thursday">Thursday</option>
+                        <option value="Friday">Friday</option>
+                        <option value="Saturday">Saturday</option>
+                        <option value="Sunday">Sunday</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="holiday" class="form-label">Holiday/Non-Holiday</label>
+                    <select id="holiday" class="form-control" required>
+                        <option value="">Choose...</option>
+                        <option value="Holiday">Holiday</option>
+                        <option value="Non-Holiday">Non-Holiday</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="recurringLocation" class="form-label">Recurring Crime Location</label>
+                    <select id="recurringLocation" class="form-control" required>
+                        <option value="">Choose...</option>
+                        <option value="TRUE">Yes</option>
+                        <option value="FALSE">No</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="victimAgeGroup" class="form-label">Victim Age Group</label>
+                    <select id="victimAgeGroup" class="form-control" required>
+                        <option value="">Choose...</option>
+                        <option value="18-25">18-25</option>
+                        <option value="26-35">26-35</option>
+                        <option value="36-45">36-45</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="suspectAgeGroup" class="form-label">Suspect Age Group</label>
+                    <select id="suspectAgeGroup" class="form-control" required>
+                        <option value="">Choose...</option>
+                        <option value="18-25">18-25</option>
+                        <option value="26-35">26-35</option>
+                        <option value="36-45">36-45</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="weapon" class="form-label">Weapon Involved</label>
+                    <select id="weapon" class="form-control" required>
+                        <option value="">Choose...</option>
+                        <option value="TRUE">Yes</option>
+                        <option value="FALSE">No</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="arrestMade" class="form-label">Arrest Made</label>
+                    <select id="arrestMade" class="form-control" required>
+                        <option value="">Choose...</option>
+                        <option value="TRUE">Yes</option>
+                        <option value="FALSE">No</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="criminalRecord" class="form-label">Criminal Record Found</label>
+                    <select id="criminalRecord" class="form-control" required>
+                        <option value="">Choose...</option>
+                        <option value="TRUE">Yes</option>
+                        <option value="FALSE">No</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="numVictims" class="form-label">Number of Victims</label>
+                    <input type="number" id="numVictims" class="form-control" placeholder="e.g., 5" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="responseTime" class="form-label">Emergency Response Time (minutes)</label>
+                    <input type="number" id="responseTime" class="form-control" placeholder="e.g., 24" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="cctv" class="form-label">Crime Recorded by CCTV</label>
+                    <select id="cctv" class="form-control" required>
+                        <option value="">Choose...</option>
+                        <option value="TRUE">Yes</option>
+                        <option value="FALSE">No</option>
+         </select>
+        </div>
+       
+      </div>
+
+    </div>
+    </div>
+  </section>
+
+  <!-- end contact section -->
+
+  <!-- info section -->
+
+  {% endblock %}

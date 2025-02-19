@@ -1,0 +1,282 @@
+{% extends "Police/header.html" %}
+{% block content %}
+{% load static %}
+<div class="pagetitle">
+    <h1>Final Report</h1>
+    <nav>
+
+    </nav>
+  </div>
+    <section class="section" style="min-height: 500px;">
+      <div class="row">
+
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+          <div class="alert alert-success"> {{message }}</div>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Report</h5>
+              <div class="row">
+      
+       
+                <div class="col-md-12">
+                   
+                    <form action="{% url 'save_final_report' data.crime_id %}" method="post" id="myform" class="row g-3">
+                        {% csrf_token %}
+                        <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="crimeType" class="form-label">Crime Type</label>
+                          
+                            <select id="crimeType" readonly name="crimeType" class="form-control" required>
+                                <option value="">Select Crime Type</option>
+                                {% for crime in crime_types %}
+                                {% if data.category_id == crime.category_id %}
+                                <option value="{{ crime.category_id }}" selected >{{ crime.category }}</option>
+                                {% endif %}
+                              
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="severity" class="form-label">Severity</label>
+                            <select id="severity" class="form-control" required name="severity">
+                                <option value="">Choose...</option>
+                                <option value="Low">Low</option>
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="dateTime" class="form-label">Date & Time</label>
+                            <input type="datetime-local" name="crimetime" id="dateTime" class="form-control" required max="{{ current_datetime|date:'Y-m-d\\TH:i' }}">
+                        </div>
+                       
+                       
+                        <div class="col-md-6">
+                            <label for="weather" class="form-label">Weather</label>
+                            <select id="weather" class="form-control" name="weather" required>
+                                <option value="">Choose...</option>
+                                <option value="Clear">Clear</option>
+                                <option value="Rainy">Rainy</option>
+                                <option value="Cloudy">Cloudy</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="populationDensity" class="form-label">Population Density</label>
+                            <input type="number" id="populationDensity" name="populationDensity" class="form-control" placeholder="e.g., 9572" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="proximityLandmark" class="form-label">Proximity to Landmark (meters)</label>
+                            <input type="number" id="proximityLandmark" name="proximityLandmark" class="form-control" placeholder="e.g., 1608" required>
+                        </div>
+                 
+                       
+                        <div class="col-md-6">
+                            <label for="holiday" class="form-label">Holiday/Non-Holiday</label>
+                            <select id="holiday" class="form-control" name="holiday" required>
+                                <option value="">Choose...</option>
+                                <option value="Holiday">Holiday</option>
+                                <option value="Non-Holiday">Non-Holiday</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="recurringLocation" class="form-label">Recurring Crime Location</label>
+                            <select id="recurringLocation" class="form-control" name="recurringLocation" required>
+                                <option value="">Choose...</option>
+                                <option value="TRUE">Yes</option>
+                                <option value="FALSE">No</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="victimAgeGroup" class="form-label">Victim Age Group</label>
+                            <select id="victimAgeGroup" class="form-control" name="victimAgeGroup" required>
+                                <option value="">Choose...</option>
+                                <option value="18-25">18-25</option>
+                                <option value="26-35">26-35</option>
+                                <option value="36-45">36-45</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="suspectAgeGroup" class="form-label">Suspect Age Group</label>
+                            <select id="suspectAgeGroup" class="form-control" name="suspectAgeGroup" required>
+                                <option value="">Choose...</option>
+                                <option value="18-25">18-25</option>
+                                <option value="26-35">26-35</option>
+                                <option value="36-45">36-45</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="weapon" class="form-label">Weapon Involved</label>
+                            <select id="weapon" class="form-control" name="weapon" required>
+                                <option value="">Choose...</option>
+                                <option value="TRUE">Yes</option>
+                                <option value="FALSE">No</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="arrestMade" class="form-label">Arrest Made</label>
+                            <select id="arrestMade" class="form-control" name="arrestMade" required>
+                                <option value="">Choose...</option>
+                                <option value="TRUE">Yes</option>
+                                <option value="FALSE">No</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="criminalRecord" class="form-label">Criminal Record Found</label>
+                            <select id="criminalRecord" class="form-control" name="criminalRecord" required>
+                                <option value="">Choose...</option>
+                                <option value="TRUE">Yes</option>
+                                <option value="FALSE">No</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="numVictims" class="form-label">Number of Victims</label>
+                            <input type="number" id="numVictims" name="numVictims" class="form-control" placeholder="e.g., 5" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="responseTime" class="form-label">Emergency Response Time (minutes)</label>
+                            <input type="number" id="responseTime" name="responseTime" class="form-control" placeholder="e.g., 24" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="cctv" class="form-label">Crime Recorded by CCTV</label>
+                            <select id="cctv" class="form-control" required name="cctv">
+                                <option value="">Choose...</option>
+                                <option value="TRUE">Yes</option>
+                                <option value="FALSE">No</option>
+                 </select>
+                </div>
+         
+                    <div class="col-md-6">
+                        <label for="witnesses" class="form-label">Witnesses Present</label>
+                        <input type="number" id="witnesses" name="witnesses"  class="form-control" placeholder="e.g., 8" required>
+                    </div>
+                
+                    <!-- Area Type -->
+                    <div class="col-md-6">
+                        <label for="areaType" class="form-label">Area Type</label>
+                        <select id="areaType" name="areaType" class="form-control" name="areaType" required>
+                            <option value="">Select Area Type</option>
+                            <option value="Urban">Urban</option>
+                            <option value="Rural">Rural</option>
+                            <option value="Suburban">Suburban</option>
+                        </select>
+                    </div>
+                
+                    <!-- Economic Status of Area -->
+                    <div class="col-md-6">
+                        <label for="economicStatus" class="form-label">Economic Status of Area</label>
+                        <select id="economicStatus" name="economicStatus" name="economicStatus" class="form-control" required>
+                            <option value="">Select Economic Status</option>
+                            <option value="Low-income">Low-income</option>
+                            <option value="Middle-income">Middle-income</option>
+                            <option value="High-income">High-income</option>
+                        </select>
+                    </div>
+                
+                    <!-- Traffic Density -->
+                    <div class="col-md-6">
+                        <label for="trafficDensity" class="form-label">Traffic Density</label>
+                        <select id="trafficDensity" name="trafficDensity" name="trafficDensity" class="form-control" required>
+                            <option value="">Select Traffic Density</option>
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                        </select>
+                    </div>
+                
+                    <!-- Nearby Facilities -->
+                    <div class="col-md-6">
+                        <label for="nearbyFacilities" class="form-label">Nearby Facilities</label>
+                        <select id="nearbyFacilities" name="nearbyFacilities" name="nearbyFacilities" class="form-control" required>
+                            <option value="">Select Facility</option>
+                            <option value="Hospital">Hospital</option>
+                            <option value="School">School</option>
+                            <option value="Train Station">Train Station</option>
+                            <option value="Mall">Mall</option>
+                            <option value="Park">Park</option>
+                        </select>
+                    </div>
+                
+                    <!-- Reporting Time -->
+                    <div class="col-md-6">
+                        <label for="reportingTime" class="form-label">Reporting Time (minutes)</label>
+                        <input type="number" id="reportingTime" name="reportingTime" class="form-control" placeholder="e.g., 27" required name="reportingTime">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="latitude" class="form-label">Latitude</label>
+                        <input type="text" id="latitude" class="form-control" name="latitude" placeholder="e.g., 26.0337" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="longitude" class="form-label">Longitude</label>
+                        <input type="text" id="longitude" class="form-control" name="longitude" placeholder="e.g., 72.2001" required>
+                    </div>
+                      <div id="map"></div>
+                    <!-- Submit Button -->
+                    <div class="col-md-12 text-center">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+                <script src="https://cdn.jsdelivr.net/gh/somanchiu/Keyless-Google-Maps-API@v6.8/mapsJavaScriptAPI.js"></script>
+				<script>
+				  function initMap() {
+					let latText = document.getElementById("latitude");
+					let longText = document.getElementById("longitude");
+					const myLatlng = { lat: 9.264758, lng: 76.787041 };
+					const map = new google.maps.Map(document.getElementById("map"), {
+					  zoom: 16,
+					  center: myLatlng,
+					});
+					// Create the initial InfoWindow.
+					// let infoWindow = new google.maps.InfoWindow({
+					// content: "Click the map to get Lat/Lng!",
+					// position: myLatlng,
+					// });
+	
+					// infoWindow.open(map);
+					// Configure the click listener.
+					// map.addListener("click", (mapsMouseEvent) => {
+					// // Close the current InfoWindow.
+					// alert(mapsMouseEvent.latLng())
+					// infoWindow.close();
+					// // Create a new InfoWindow.
+					// infoWindow = new google.maps.InfoWindow({
+					// position: mapsMouseEvent.latLng,
+					// });
+					// infoWindow.setContent(
+					// JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2)
+					// );
+					// infoWindow.open(map);
+	
+					// });
+					google.maps.event.addListener(map, 'click', function (event) {
+					  var lat = event.latLng.lat();
+					  var lng = event.latLng.lng();
+					  // alert("Lat=" + lat + "; Lng=" + lng);
+					  latText.value = lat;
+					  longText.value = lng;
+					  // placeNewPostMarker(event.latLng);
+					  // newpost.setContent('<a href="/posts/add?lat=' + lat + '&lng=' + lng + '">Add New</a>');
+					  // newpost.open(map,newpostmarker);
+					});
+				  }
+	
+				  window.initMap = initMap;
+				</script>
+				<style>
+				  #map {
+					height: 500px;
+					width: 500px;
+				  }
+				</style>
+              </div>
+          </div></div>
+        </div>
+      </div>
+    </section>
+
+    {% endblock %}
