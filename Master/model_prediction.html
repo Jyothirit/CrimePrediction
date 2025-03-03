@@ -1,0 +1,91 @@
+{% extends "Master/header.html" %}
+{% block content %}
+{% load static %}
+<div class="pagetitle">
+    <h1>Prediction - Crime</h1>
+    <nav>
+
+    </nav>
+  </div>
+    <section class="section" style="min-height: 500px;">
+      <div class="row">
+
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+          <div class="alert alert-success"> {{message }}</div>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Model Classification report</h5>
+        <style>
+            
+              .result {
+                padding: 15px;
+                background-color: #d4edda;
+                color: #155724;
+                border-radius: 5px;
+                font-size: 18px;
+                font-weight: bold;
+            }
+            .btn {
+                display: inline-block;
+                margin-top: 15px;
+                padding: 10px 20px;
+                background: #007bff;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                text-decoration: none;
+                cursor: pointer;
+            }
+            .btn:hover {
+                background: #0056b3;
+            }
+        </style>
+    </head>
+    <body>
+    
+    <div class="container">
+   
+        <h2>Model Classification report</h2>
+    
+        <p><strong>Model Accuracy:</strong> {{ accuracy }}%</p>
+    
+        <h3>Classification Report:</h3>
+        <table class="table table-bordered">
+            <tr>
+                <th>Class</th>
+                <th>Precision</th>
+                <th>Recall</th>
+                <th>F1-Score</th>
+                <th>Support</th>
+            </tr>
+            {% for row in classification_report %}
+            <tr>
+                <td>{{ row.Class }}</td>
+                <td>{{ row.Precision }}</td>
+                <td>{{ row.Recall }}</td>
+                <td>{{ row.F1_score }}</td>
+                <td>{{ row.Support }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <h3>Confusion Matrix</h3>
+    <img src="/media/Detection/{{ confusion_matrix_img }}" alt="Confusion Matrix" width="600">
+
+    <h3>ROC Curve</h3>
+    <img src="/media/Detection/{{ roc_curve_img }}" alt="ROC Curve" width="600">
+        
+    </div>
+              </div>
+           
+          </div></div>
+        </div>
+      </div>
+    </section>
+
+    {% endblock %}

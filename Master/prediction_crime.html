@@ -1,0 +1,200 @@
+{% extends "Master/header.html" %}
+{% block content %}
+{% load static %}
+<div class="pagetitle">
+    <h1>Prediction - Crime</h1>
+    <nav>
+
+    </nav>
+  </div>
+    <section class="section" style="min-height: 500px;">
+      <div class="row">
+
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+          <div class="alert alert-success"> {{message }}</div>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Predict Crime Spots</h5>
+        
+            
+              <div class="container mt-4">
+                <h2>Crime Prediction</h2>
+                
+                  
+                <form action="{% url 'predict_crime' %}" method="post" id="predict-form">
+                  {% csrf_token %}
+                  
+                  <!-- Crime Type Field -->
+                  <div class="form-group">
+                    <label for="crimeType">Crime Type:</label>
+                    <select name="crimeType" id="crimeType" class="form-control" required>
+                      <option value="">Select Crime Type</option>
+                      <option value="0">Kidnapping</option>
+                      <option value="1">Robbery</option>
+                      <option value="2">Burglary</option>
+                      <option value="3">Assault</option>
+                      <option value="4">Theft</option>
+                      <option value="5">Other</option>
+                      <!-- Add other crime types as needed -->
+                    </select>
+                  </div>
+                
+                  <!-- Severity Field -->
+                  <div class="form-group">
+                    <label for="severity">Severity:</label>
+                    <select name="severity" id="severity" class="form-control" required>
+                      <option value="">Select Severity</option>
+                      <option value="0">Low</option>
+                      <option value="1">Medium</option>
+                      <option value="2">High</option>
+                      <option value="3">Moderate</option>
+                    </select>
+                  </div>
+                
+                  <!-- Weather Field -->
+                  <div class="form-group">
+                    <label for="weather">Weather:</label>
+                    <select name="weather" id="weather" class="form-control" required>
+                      <option value="">Select Weather</option>
+                      <option value="0">Cloudy</option>
+                      <option value="1">Foggy</option>
+                      <option value="2">Rainy</option>
+                      <option value="3">Sunny</option>
+                    </select>
+                  </div>
+                
+                  <!-- Population Density Field -->
+                  <div class="form-group">
+                    <label for="populationDensity">Population Density:</label>
+                    <input type="number" name="populationDensity" id="populationDensity" class="form-control" required>
+                  </div>
+                
+                  <!-- Area Type Field -->
+                  <div class="form-group">
+                    <label for="areaType">Area Type:</label>
+                    <select name="areaType" id="areaType" class="form-control" required>
+                      <option value="">Select Area Type</option>
+                      <option value="0">Urban</option>
+                
+                      <option value="2">Rural</option>
+                      <option value="2">Suburban</option>
+                      
+                    </select>
+                  </div>
+                
+                  <!-- Economic Status of Area Field -->
+                  <div class="form-group">
+                    <label for="economicStatus">Economic Status of Area:</label>
+                    <select name="economicStatus" id="economicStatus" class="form-control" required>
+                      <option value="">Select Economic Status</option>
+                      <option value="0">Low</option>
+                      <option value="1">Medium</option>
+                      <option value="2">High</option>
+                    </select>
+                  </div>
+                
+                  <!-- Traffic Density Field -->
+                  <div class="form-group">
+                    <label for="trafficDensity">Traffic Density:</label>
+               
+                    <select name="trafficDensity" id="trafficDensity" class="form-control" required>
+                      <option value="">Select Economic Status</option>
+                      <option value="0">Low</option>
+                      <option value="1">Medium</option>
+                      <option value="2">High</option>
+                    </select>
+                  </div>
+              
+                  <!-- Latitude Field -->
+                  <div class="form-group">
+                    <label for="latitude">Latitude:</label>
+                    <input type="text" name="latitude" id="latitude" class="form-control" required>
+                  </div>
+              
+                  <!-- Longitude Field -->
+                  <div class="form-group">
+                    <label for="longitude">Longitude:</label>
+                    <input type="text" name="longitude" id="longitude" class="form-control" required>
+                  </div>
+              
+              
+                    
+                    <div id="map" style="margin-top:6px"></div>
+                    <script src="https://cdn.jsdelivr.net/gh/somanchiu/Keyless-Google-Maps-API@v6.8/mapsJavaScriptAPI.js"></script>
+                    <script>
+                      function initMap() {
+                      let latText = document.getElementById("latitude");
+                      let longText = document.getElementById("longitude");
+                      const myLatlng = { lat: 9.264758, lng: 76.787041 };
+                      const map = new google.maps.Map(document.getElementById("map"), {
+                        zoom: 16,
+                        center: myLatlng,
+                      });
+                      // Create the initial InfoWindow.
+                      // let infoWindow = new google.maps.InfoWindow({
+                      // content: "Click the map to get Lat/Lng!",
+                      // position: myLatlng,
+                      // });
+              
+                      // infoWindow.open(map);
+                      // Configure the click listener.
+                      // map.addListener("click", (mapsMouseEvent) => {
+                      // // Close the current InfoWindow.
+                      // alert(mapsMouseEvent.latLng())
+                      // infoWindow.close();
+                      // // Create a new InfoWindow.
+                      // infoWindow = new google.maps.InfoWindow({
+                      // position: mapsMouseEvent.latLng,
+                      // });
+                      // infoWindow.setContent(
+                      // JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2)
+                      // );
+                      // infoWindow.open(map);
+              
+                      // });
+                      google.maps.event.addListener(map, 'click', function (event) {
+                        var lat = event.latLng.lat();
+                        var lng = event.latLng.lng();
+                        // alert("Lat=" + lat + "; Lng=" + lng);
+                        latText.value = lat.toFixed(5);
+                        longText.value = lng.toFixed(5);
+                        // placeNewPostMarker(event.latLng);
+                        // newpost.setContent('<a href="/posts/add?lat=' + lat + '&lng=' + lng + '">Add New</a>');
+                        // newpost.open(map,newpostmarker);
+                      });
+                      }
+              
+                      window.initMap = initMap;
+                    </script>
+                    <style>
+                      #map {
+                      height: 500px;
+                      width: 500px;
+                      }
+                    </style>
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-primary">Predict </button>
+                  </form>
+                  
+                
+              
+                {% if prediction %}
+                <div class="mt-4">
+                  <h4>Prediction Result:</h4>
+                  <p>The predicted crime cluster is: <strong>{{ prediction }}</strong></p>
+                </div>
+                {% endif %}
+              </div>
+           
+          </div></div>
+        </div>
+      </div>
+    </section>
+
+    {% endblock %}
