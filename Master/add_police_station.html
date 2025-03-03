@@ -1,0 +1,286 @@
+{% extends "Master/header.html" %}
+{% block content %}
+{% load static %}
+<div class="pagetitle">
+    <h1> Police Station</h1>
+    <nav>
+
+    </nav>
+  </div>
+    <section class="section" style="min-height: 500px;">
+      <div class="row">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+          <div class="alert alert-success"> {{message }}</div>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Add Police Station</h5>
+              <form action="{% url 'save_station' %}" method="post" id="myform" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                <div class="col-sm-6">
+                <div class="form-group"> <label for="">State</label>
+                    <select name="state" id="state" class="form-control">
+                      <option value="">--Select--</option>
+                       {%  for k in data  %}
+                      <option value="{{k.state_id}}">{{k.state}}</option>
+                      {% endfor  %}
+                    </select> </div>
+                <div class="form-group"> <label for="">District</label>
+                  <select name="district" id="district" class="form-control">
+                    <option value="">--Select--</option>
+
+                  </select> </div>
+                  <div class="form-group"> <label for="">Place</label>
+                    <input type="text" name="place" class="form-control" id="place"></div>
+
+                    <div class="form-group">
+                        <span><label>ADDRESS</label></span>
+                       <span><textarea name="address"  class="form-control"></textarea></textarea></span>
+                   </div>
+                   <div class="form-group">
+                    <span><label>PHONE NUMBER</label></span>
+                   <span><input name="phone" type="text" class="form-control"></span>
+               </div>
+               
+                  <div class="form-group">
+                    <span><label>Mail ID</label></span>
+                   <span><input name="mail_id" type="text" class="form-control"></span>
+               </div>
+               <div>
+                <span>Username</span>
+                <input name="username" id="id_username" placeholder="Username" type="text" class="form-control">
+                <span id="cb"></span>
+                </div>
+                <div>
+                <span>Password</span>
+                <input type="password" placeholder="Password" name="password" id="password1"   class="form-control" >
+                </div>
+                  </div>
+                  <div class="col-sm-6">
+                
+             
+                    <div>
+                    <span>Confirm Password</span>
+                    <input type="password" placeholder="Confirm Password" name="cpassword" id="password2"   class="form-control" >
+                    </div>
+                    <div class="col-md-12">
+                      <label for="latitude" class="form-label">Latitude</label>
+                      <input type="text" id="latitude" class="form-control" name="latitude" placeholder="e.g., 26.0337" required>
+                  </div>
+                  <div class="col-md-12">
+                      <label for="longitude" class="form-label">Longitude</label>
+                      <input type="text" id="longitude" class="form-control" name="longitude" placeholder="e.g., 72.2001" required>
+                  </div>
+                    <div id="map" style="margin-top:6px"></div>
+                    <script src="https://cdn.jsdelivr.net/gh/somanchiu/Keyless-Google-Maps-API@v6.8/mapsJavaScriptAPI.js"></script>
+                    <script src="{% static 'assets/Validation/jquery-1.11.1.min.js' %}"></script>
+                   <script>
+                      function initMap() {
+                      let latText = document.getElementById("latitude");
+                      let longText = document.getElementById("longitude");
+                      const myLatlng = { lat: 9.264758, lng: 76.787041 };
+                      const map = new google.maps.Map(document.getElementById("map"), {
+                        zoom: 16,
+                        center: myLatlng,
+                      });
+                      // Create the initial InfoWindow.
+                      // let infoWindow = new google.maps.InfoWindow({
+                      // content: "Click the map to get Lat/Lng!",
+                      // position: myLatlng,
+                      // });
+              
+                      // infoWindow.open(map);
+                      // Configure the click listener.
+                      // map.addListener("click", (mapsMouseEvent) => {
+                      // // Close the current InfoWindow.
+                      // alert(mapsMouseEvent.latLng())
+                      // infoWindow.close();
+                      // // Create a new InfoWindow.
+                      // infoWindow = new google.maps.InfoWindow({
+                      // position: mapsMouseEvent.latLng,
+                      // });
+                      // infoWindow.setContent(
+                      // JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2)
+                      // );
+                      // infoWindow.open(map);
+              
+                      // });
+                      google.maps.event.addListener(map, 'click', function (event) {
+                        var lat = event.latLng.lat();
+                        var lng = event.latLng.lng();
+                        // alert("Lat=" + lat + "; Lng=" + lng);
+                        latText.value = lat;
+                        longText.value = lng;
+                        // placeNewPostMarker(event.latLng);
+                        // newpost.setContent('<a href="/posts/add?lat=' + lat + '&lng=' + lng + '">Add New</a>');
+                        // newpost.open(map,newpostmarker);
+                      });
+                      }
+              
+                      window.initMap = initMap;
+                    </script>
+                    <style>
+                      #map {
+                      height: 500px;
+                      width: 500px;
+                      }
+                    </style>      
+                </div> 
+                    </div>
+                    <div class="col-sm-12" style="text-align: center;">
+                <button type="submit" class="btn btn-info">Submit</button> </form> </div>
+</div>
+
+<script>
+$("#state").change(function () {
+var state = $(this).val();
+alert(state)
+$.ajax({
+
+url: "{% url 'display_district' %}",
+data: {
+'state_id': state
+},
+dataType: 'json',
+success: function (data) {
+
+
+          let html_data = '<option value="">--Select--</option>';
+data.forEach(function (data) {
+html_data += `<option value="${data.district_id}">${data.district}</option>`
+});
+$("#district").html(html_data);
+
+
+
+}
+});
+
+});
+</script>
+
+                <script src="{% static 'assets/Validation/jquery_validate.js' %}"></script>
+                <script src="{% static 'assets/Validation/additional_validate.js' %}"></script>
+<script>
+(function ($, W, D)
+{
+var JQUERY4U = {};
+JQUERY4U.UTIL =
+{
+  setupFormValidation: function ()
+  {
+    $.validator.addMethod(
+"regex",
+function(value, element, regexp) {
+var check = false;
+return this.optional(element) || regexp.test(value);
+},
+"Not a valid Input."
+);
+
+  //form validation rules
+  $("#myform").validate({
+    rules: {
+                        state: {
+                          required: true,
+
+
+                        },
+                        district: {
+                          required: true,
+
+
+                        },
+                        place: {
+                          required: true,
+                          regex :/^[a-zA-Z ]+$/,
+                      minlength: 3,
+
+
+                        },
+                        type: {
+                          required: true,
+
+
+                        },
+                        mail_id: {
+                     required: true,
+                     regex :  /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+
+                    },
+                    phone: {
+                        required: true,
+                        digits:true,
+                           minlength: 10,
+                           maxlength: 10,
+                           regex : /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[6789]\d{9}$/
+                    },
+                        address: {
+                          required: true,
+
+                      minlength: 5,
+
+
+                        },
+                        image: {
+                          required: true,
+                        extension:'jpg|png|jpeg'
+
+                        },
+                        username: {
+                                    required: true,
+                                    regex : /^[A-Za-z0-9@]+$/,
+                                    minlength: 5,
+                                    maxlength: 15,
+                        
+                                },
+                                password: {
+                                    required: true,
+                                     regex : /^[A-Za-z0-9@#*]+$/,
+                                     minlength: 5,
+                                    maxlength: 15,
+                        
+                                },
+                                cpassword: {
+                                    required: true,
+                                       regex : /^[A-Za-z0-9@#*]+$/,
+                                       minlength: 5,
+                                      maxlength: 15,
+                                  equalTo: "#password1"
+                        
+                                },
+                      },
+                      messages: {
+
+
+
+      },
+      submitHandler: function (form) {
+      form.submit();
+      }
+  });
+}
+}
+//when the dom has loaded setup form validation rules
+$(D).ready(function ($) {
+JQUERY4U.UTIL.setupFormValidation();
+});
+})(jQuery, window, document);
+</script>
+
+            </div>
+          </div>
+
+  
+
+      </div>
+    </section>
+
+    {% endblock %}
