@@ -1,0 +1,118 @@
+{% extends "Master/header.html" %}
+{% block content %}
+{% load static %}
+<div class="pagetitle">
+    <h1>Crime Hotspots</h1>
+    <nav>
+
+    </nav>
+  </div>
+  <style>
+    
+    i{
+      color: rgb(42, 159, 136);
+font-size: 30px;
+    }
+  </style>
+    <section class="section" style="min-height: 500px;">
+      <div class="row">
+        <div class="col-lg-12">
+
+            
+                 
+            
+                </div>
+           
+        </div>
+
+        <div class="col-lg-12">
+          <div class="row">
+      
+              <!-- Patient Count Card -->
+              <div class="col-xxl-12 col-md-12">
+                  <div class="card info-card sales-card">
+                      <div class="card-body">
+                        <h5 class="card-title"></span></h5>
+                          <div class="d-flex align-items-center">
+                              <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            
+                              </div>
+                              <div class="ps-3">
+                              
+                                {% if messages %}
+                                {% for message in messages %}
+                                    <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %}">
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        
+                            {% if hotspot_map %}
+                                <div class="text-center mt-3">
+                                    <h4>Crime Hotspot Clusters</h4>
+                                    <img src="media/Detection/hotspot_map.png" alt="Crime Hotspots" class="img-fluid mt-2" style="border: 1px solid #ddd; padding: 5px;">
+                                </div>
+                            {% else %}
+                                <p class="text-center text-danger mt-4">No hotspot map available. Please upload crime data.</p>
+                            {% endif %}
+                              </div>
+                            </div> 
+    {% if hotspots %}
+    <h4 class="mt-4">Hotspot Clusters (Latitude & Longitude)</h4>
+    <a href="{% url 'heat_map' %}" target="_blank">Map Visualization</a>
+    <table class="table table-bordered mt-3">
+        <thead class="thead-dark">
+            <tr>
+                <th>Cluster ID</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>Crime Density</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for hotspot in hotspots %}
+            <tr>
+                <td>{{ hotspot.cluster_id }}</td>
+                <td>{{ hotspot.latitude }}</td>
+                <td>{{ hotspot.longitude }}</td>
+                <td>{{ hotspot.density }}</td>
+                <td>
+                    <a target="_blank" href="{% url 'google_map_view_spot' hotspot.latitude|floatformat:10 hotspot.longitude|floatformat:10 %}">
+                        Google Location - Crime Hot Spot
+                    </a>
+                </td>
+                <td>
+                    <a target="_blank" href="{% url 'send_warning' hotspot.latitude|floatformat:10 hotspot.longitude|floatformat:10 %}">
+                        Send Email
+                    </a>
+                </td>  
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p class="text-center text-warning mt-3">No hotspot clusters found.</p>
+{% endif %}
+                        
+                      </div>
+                  </div>
+              </div>
+      
+              
+</div>
+</div>
+</div>         
+      
+          </div>
+     
+  </div>   
+
+
+
+      </div>
+
+    </div>
+      </div>
+    </section>
+
+    {% endblock %}
