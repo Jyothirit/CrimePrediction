@@ -1,0 +1,91 @@
+
+{% extends "User/header.html" %}
+{% block content %}
+{% load static %}
+<section class="contact_section layout_padding">
+    <div class="container-fluid">
+      <div class="row" style="width: 90%; margin:auto">
+      
+       
+        <div class="col-md-12">
+           
+         <h1 class="text-center" style="color: rgb(14, 120, 128);">Google Map - Crime Hot Spot </h1>
+         <div class="container mt-4">
+            <h2></h2>
+            <div id="map"></div>
+
+            <!-- 
+            The `defer` attribute causes the callback to execute after the full HTML
+            document has been parsed. For non-blocking uses, avoiding race conditions,
+            and consistent behavior across browsers, consider loading using Promises.
+            See https://developers.google.com/maps/documentation/javascript/load-maps-js-api
+            for more information.
+            -->
+            <script src="https://cdn.jsdelivr.net/gh/somanchiu/Keyless-Google-Maps-API@v6.8/mapsJavaScriptAPI.js"></script>
+            <script>
+              function initMap() {
+                
+                var latitude = parseFloat("{{latitude}}");
+                var longitude = parseFloat("{{longitude}}");
+                var plc= "{{data1.place}}";       
+                const myLatlng = { lat: latitude, lng: longitude };
+                const map = new google.maps.Map(document.getElementById("map"), {
+                  zoom: 16,
+                  center: myLatlng,
+                });
+                const marker = new google.maps.Marker({
+            // The below line is equivalent to writing:
+            // position: new google.maps.LatLng(-34.397, 150.644)
+            position: { lat: latitude, lng: longitude },
+            map: map,
+            title: "EV - Charging Station "+plc,
+            });
+            
+                // Create the initial InfoWindow.
+                // let infoWindow = new google.maps.InfoWindow({
+                // content: "Click the map to get Lat/Lng!",
+                // position: myLatlng,
+                // });
+            
+                // infoWindow.open(map);
+                // Configure the click listener.
+                // map.addListener("click", (mapsMouseEvent) => {
+                // // Close the current InfoWindow.
+                // alert(mapsMouseEvent.latLng())
+                // infoWindow.close();
+                // // Create a new InfoWindow.
+                // infoWindow = new google.maps.InfoWindow({
+                // position: mapsMouseEvent.latLng,
+                // });
+                // infoWindow.setContent(
+                // JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2)
+                // );
+                // infoWindow.open(map);
+            
+                // });
+               
+              }
+            
+              window.initMap = initMap;
+            </script>
+            <style>
+              #map {
+                height: 500px;
+                width: 100%;
+              }
+            </style>
+        </div>
+     
+        </div>
+       
+      </div>
+
+    </div>
+    </div>
+  </section>
+
+  <!-- end contact section -->
+
+  <!-- info section -->
+
+  {% endblock %}

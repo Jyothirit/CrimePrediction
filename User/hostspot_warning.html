@@ -1,0 +1,59 @@
+
+{% extends "User/header.html" %}
+{% block content %}
+{% load static %}
+<section class="contact_section layout_padding">
+    <div class="container-fluid">
+      <div class="row" style="width: 90%; margin:auto">
+      
+       
+        <div class="col-md-12">
+           
+         <h1 class="text-center" style="color: rgb(14, 120, 128);">Hot Spots</h1>
+         <div class="container mt-4">
+            <h2>Hotspots Positions</h2>
+            {% if hotspots %}
+            <table class="table table-bordered">
+                <tr>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
+                    <th>Created At</th>
+                </tr>
+                {% for hotspot in hotspots %}
+                <tr>
+                    <td>{{ hotspot.latitude }}</td>
+                    <td>{{ hotspot.longitude }}</td>
+                    <td>{{ hotspot.created_at }}</td>
+                    <td>
+                        <a target="_blank" href="{% url 'u_google_map_view_spot' hotspot.latitude|floatformat:10 hotspot.longitude|floatformat:10 %}">
+                            Google Location - Crime Hot Spot
+                        </a>
+                    </td>
+                    <td>
+                        <a target="_blank" href="{% url 'display_crimes' hotspot.latitude|floatformat:10 hotspot.longitude|floatformat:10 %}">
+                            View Crime
+                        </a>
+                    </td>
+
+                </tr>
+                {% endfor %}
+            </table>
+            
+            {% else %}
+                <p>No profile found.</p>
+            {% endif %}
+        </div>
+     
+        </div>
+       
+      </div>
+
+    </div>
+    </div>
+  </section>
+
+  <!-- end contact section -->
+
+  <!-- info section -->
+
+  {% endblock %}
